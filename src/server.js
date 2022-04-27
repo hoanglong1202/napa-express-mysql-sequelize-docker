@@ -8,7 +8,7 @@ const logEvents = require("./app/helpers/logEvents");
 const createError = require('http-errors');
 
 const app = express();
-const db = require("./app/models");
+const db = require("./app/models/configDb");
 
 var corsOptions = {
   origin: "http://localhost:8081",
