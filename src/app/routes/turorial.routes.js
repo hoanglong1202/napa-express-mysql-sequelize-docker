@@ -1,27 +1,29 @@
 const express = require("express");
-const tutorials = require("../controllers/tutorial.controller.js");
+const { tutorialController } = require("../controllers");
+const { tutorialValidation } = require("../validations");
+const validator = require("express-joi-validation").createValidator({ passError: true });
 
 const router = express.Router();
 
 // Create a new Tutorial
-router.post("/", tutorials.create);
+router.post("/", validator.body(tutorialValidation.createTutorial), tutorialController.create);
 
-// Retrieve all Tutorials
-router.get("/", tutorials.findAll);
+// Retrieve all tutorial
+router.get("/", tutorialController.findAll);
 
-// Retrieve all published Tutorials
-router.get("/published", tutorials.findAllPublished);
+// Retrieve all published tutorial
+router.get("/published", tutorialController.findAllPublished);
 
 // Retrieve a single Tutorial with id
-router.get("/:id", tutorials.findOne);
+router.get("/:id", tutorialController.findOne);
 
 // Update a Tutorial with id
-router.put("/:id", tutorials.update);
+router.put("/:id", tutorialController.update);
 
 // Delete a Tutorial with id
-router.delete("/:id", tutorials.delete);
+router.delete("/:id", tutorialController.delete);
 
-// Delete all Tutorials
-router.delete("/", tutorials.deleteAll);
+// Delete all tutorial
+router.delete("/", tutorialController.deleteAll);
 
 module.exports = router;

@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const routes = require("./app/routes");
 const logEvents = require("./app/helpers/logEvents");
+const createError = require('http-errors');
 
 const app = express();
 const db = require("./app/models");
@@ -30,7 +31,20 @@ app.use("/api", routes);
 
 // error handler
 app.use((req, res, next) => {
-  next(createError(400, "API not found"));
+  next(createError(404, "API not found"));
+});
+
+app.use((err, req, res, next) => {
+  if (err && err.error && err.error.isJoi) {
+    // we had a joi error, let's return a custom 400 json response
+    let errMessage = err.error.toString()
+    res.status(400).json({
+      type: err.type,
+      message: errMessage,
+    });
+  } else {
+    next(err);
+  }
 });
 
 app.use((err, req, res, next) => {
@@ -38,6 +52,7 @@ app.use((err, req, res, next) => {
   logEvents(msg);
 
   res.status(err.status || 500);
+
   res.send({
     status: err.status || 500,
     message: err.message,
