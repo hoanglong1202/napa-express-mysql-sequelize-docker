@@ -4,8 +4,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const routes = require("./app/routes");
-const logEvents = require("./app/helpers/logEvents");
-const createError = require('http-errors');
+const createError = require("http-errors");
+const winston = require('./app/config/winston');
 
 const app = express();
 const db = require("./app/models/configDb");
@@ -18,7 +18,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(morgan("common"));
+app.use(morgan('combined', { stream: winston.stream }));
 
 db.sequelize.sync();
 // drop the table if it already exists
@@ -36,11 +36,12 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   if (err && err.error && err.error.isJoi) {
-    // we had a joi error, let's return a custom 400 json response
-    let errMessage = err.error.toString()
+    const msg = `${req.url}---${req.method}---${err.error.toString()}`;
+    winston.error(msg);
+
     res.status(400).json({
       type: err.type,
-      message: errMessage,
+      message: msg,
     });
   } else {
     next(err);
@@ -49,7 +50,7 @@ app.use((err, req, res, next) => {
 
 app.use((err, req, res, next) => {
   const msg = `${req.url}---${req.method}---${err.status}---${err.message}`;
-  logEvents(msg);
+  winston.error(msg);
 
   res.status(err.status || 500);
 
