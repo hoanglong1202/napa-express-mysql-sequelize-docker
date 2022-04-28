@@ -6,4 +6,12 @@ const createTutorial = Joi.object().keys({
   published: Joi.string().required(),
 });
 
-module.exports = { createTutorial };
+const findAllTutorial = Joi.object().keys({
+  title: Joi.any().required(),
+});
+
+const findByIdTutorial = Joi.object().keys({
+  id: Joi.any().required(),
+});
+
+module.exports = { createTutorial, findAllTutorial, findByIdTutorial };

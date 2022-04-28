@@ -9,7 +9,7 @@ module.exports = Object.freeze({
     Tutorial.destroy({
       where: { id: id },
     }),
-  update: async (data, id) =>
+  updateById: async (data, id) =>
     Tutorial.update(data, {
       where: { id: id },
     }),

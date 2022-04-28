@@ -9,21 +9,15 @@ const router = express.Router();
 router.post("/", validator.body(tutorialValidation.createTutorial), tutorialController.create);
 
 // Retrieve all tutorial
-router.get("/", tutorialController.findAll);
-
-// Retrieve all published tutorial
-router.get("/published", tutorialController.findAllPublished);
+router.get("/", validator.query(tutorialValidation.findAllTutorial), tutorialController.findAll);
 
 // Retrieve a single Tutorial with id
-router.get("/:id", tutorialController.findOne);
+router.get("/:id", validator.params(tutorialValidation.findByIdTutorial), tutorialController.findOne);
 
 // Update a Tutorial with id
-router.put("/:id", tutorialController.update);
+router.put("/:id", validator.params(tutorialValidation.findByIdTutorial), tutorialController.update);
 
 // Delete a Tutorial with id
-router.delete("/:id", tutorialController.delete);
-
-// Delete all tutorial
-router.delete("/", tutorialController.deleteAll);
+router.delete("/:id", validator.params(tutorialValidation.findByIdTutorial), tutorialController.delete);
 
 module.exports = router;
