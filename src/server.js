@@ -5,20 +5,22 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const routes = require("./app/routes");
 const createError = require("http-errors");
-const winston = require('./app/config/winston');
+const winston = require("./app/config/winston");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 const app = express();
 const db = require("./app/models/configDb");
 
 var corsOptions = {
-  origin: "http://localhost:8081",
+  origin: "http://localhost:8080",
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(morgan('combined', { stream: winston.stream }));
+app.use(morgan("combined", { stream: winston.stream }));
 
 db.sequelize.sync();
 // drop the table if it already exists
@@ -28,6 +30,7 @@ db.sequelize.sync();
 
 // routing
 app.use("/api", routes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // error handler
 app.use((req, res, next) => {

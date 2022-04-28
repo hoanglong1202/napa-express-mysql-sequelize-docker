@@ -8,6 +8,7 @@ const { tutorialService } = require("../servives");
 exports.create = async (req, res, next) => {
   try {
     const { title, description, published } = req.body;
+    console.log({ title, description, published })
 
     const tutorial = {
       title,
@@ -19,7 +20,7 @@ exports.create = async (req, res, next) => {
     res.send({
       status: "Success",
       message: "Create tutorial successfully",
-      dataObj: result,
+      // dataObj: result,
     });
   } catch (error) {
     next(error);

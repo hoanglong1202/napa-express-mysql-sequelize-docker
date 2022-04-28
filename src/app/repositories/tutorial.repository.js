@@ -2,15 +2,15 @@ const db = require("../models/configDb");
 const Tutorial = db.tutorials;
 
 module.exports = Object.freeze({
-  create: async (data) => Tutorial.create(data),
-  findById: async (id) => Tutorial.findByPk(id),
-  findAll: async (condition) => Tutorial.findAll({ where: condition }),
+  create: async (data) => await Tutorial.create(data),
+  findById: async (id) => await Tutorial.findByPk(id),
+  findAll: async (condition) => await Tutorial.findAll({ where: condition }),
   removeById: async (id) =>
-    Tutorial.destroy({
+  await Tutorial.destroy({
       where: { id: id },
     }),
   updateById: async (data, id) =>
-    Tutorial.update(data, {
-      where: { id: id },
+  await Tutorial.update(data, {
+      where: { id },
     }),
 });

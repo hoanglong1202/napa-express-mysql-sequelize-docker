@@ -1,0 +1,122 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My User Project CRUD",
+    "description": "My User Project Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api/",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/tutorial": {
+      "get": {
+        "tags": ["Tutorials"],
+        "summary": "Get all tutorial in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tutorials"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tutorials"],
+        "description": "Create new tutorial in system",
+        "parameters": [
+          {
+            "name": "tutorial",
+            "in": "body",
+            "description": "tutorial that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Tutorials"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New tutorial is created",
+            "schema": {
+              "$ref": "#/definitions/Tutorials"
+            }
+          }
+        }
+      }
+    },
+    "/tutorial/{id}": {
+      "put": {
+        "tags": ["Tutorials"],
+        "description": "Create new tutorial in system",
+        "parameters": [
+          {
+            "name": "tutorial",
+            "in": "body",
+            "description": "tutorial that we want to update",
+            "schema": {
+              "$ref": "#/definitions/Tutorials"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id tutorial that we want to update"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New tutorial is created",
+            "schema": {
+              "$ref": "#/definitions/Tutorials"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tutorials"],
+        "description": "Create new tutorial in system",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id tutorial that we want to delete"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New tutorial is created",
+            "schema": {
+              "$ref": "#/definitions/Tutorials"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Tutorials": {
+      "required": ["title", "description", "published"],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "published": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

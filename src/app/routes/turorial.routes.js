@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/", validator.body(tutorialValidation.createTutorial), tutorialController.create);
 
 // Retrieve all tutorial
-router.get("/", validator.query(tutorialValidation.findAllTutorial), tutorialController.findAll);
+router.get("/", tutorialController.findAll);
 
 // Retrieve a single Tutorial with id
 router.get("/:id", validator.params(tutorialValidation.findByIdTutorial), tutorialController.findOne);
