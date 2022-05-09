@@ -12,6 +12,22 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
     idle: dbConfig.pool.idle
+  },
+
+  retry: {
+    match: [
+      /SequelizeConnectionError/,
+      /SequelizeConnectionRefusedError/,
+      /SequelizeHostNotFoundError/,
+      /SequelizeHostNotReachableError/,
+      /SequelizeInvalidConnectionError/,
+      /SequelizeConnectionTimedOutError/
+    ],
+    name: 'query',
+    backoffBase: 100,
+    backoffExponent: 1.1,
+    timeout: 60000,
+    max: 3
   }
 });
 
